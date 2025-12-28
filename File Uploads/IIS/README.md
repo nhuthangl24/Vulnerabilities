@@ -4,8 +4,8 @@ Trong IIS (Internet Information Services) của Microsoft:
 
 **web.config** là file cấu hình theo từng thư mục
 
-*   Chức năng tương đương `.htaccess` của Apache
-*   Cho phép ghi đè hoặc bổ sung cấu hình toàn cục
+- Chức năng tương đương `.htaccess` của Apache
+- Cho phép ghi đè hoặc bổ sung cấu hình toàn cục
 
 👉 IIS sẽ tự động đọc `web.config` nếu file tồn tại trong thư mục được truy cập.
 
@@ -19,8 +19,8 @@ Trong IIS (Internet Information Services) của Microsoft:
 
 ## 2.1. staticContent
 
-*   Phần cấu hình liên quan đến file tĩnh
-*   Quy định IIS xử lý các phần mở rộng file như thế nào
+- Phần cấu hình liên quan đến file tĩnh
+- Quy định IIS xử lý các phần mở rộng file như thế nào
 
 ## 2.2. mimeMap
 
@@ -66,15 +66,15 @@ Website cho phép upload file
 
 Không chặn:
 
-*   `web.config`
-*   hoặc chỉ blacklist `.aspx`, `.php`
+- `web.config`
+- hoặc chỉ blacklist `.aspx`, `.php`
 
 Thư mục upload nằm trong webroot
 
 ## 4.2. Sai lầm phổ biến của dev
 
-*   Chặn: `.aspx`, `.php`
-*   Cho phép: `.jpg`, `.png`, `.txt`, `.json`
+- Chặn: `.aspx`, `.php`
+- Cho phép: `.jpg`, `.png`, `.txt`, `.json`
 
 👉 Dev nghĩ:
 
