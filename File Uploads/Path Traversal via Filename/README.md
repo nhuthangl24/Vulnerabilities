@@ -86,3 +86,19 @@ Nếu bắt buộc phải dùng tên file gốc, hãy lọc bỏ mọi ký tự 
 
 ### 3. Validate Canonical Path (Kiểm tra đường dẫn thực)
 Trước khi ghi file, hãy kiểm tra đường dẫn tuyệt đối của file đích xem nó có nằm trong thư mục cho phép hay không.
+
+
+
+
+
+Đoạn mã PHP để tạo ra các chuỗi mã hóa trên:
+
+```php
+<?php
+$str = '../hha.php';
+echo "Original: " . $str . "\n";
+echo "URL Encoded: " . urlencode($str) . "\n";
+echo "Base64 Encoded: " . base64_encode($str) . "\n";
+// Double URL Encode
+echo "Double URL Encoded: " . urlencode(urlencode($str)) . "\n";
+?>
