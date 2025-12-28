@@ -37,3 +37,48 @@ Tuy nhiên, ngay cả phương pháp này cũng không hoàn toàn an toàn. S�
     - Truy cập đường dẫn của file đã upload.
     - Ví dụ: `http://target-site.com/uploads/payload.php?cmd=id`
     - Server sẽ xử lý file như một script PHP (do đuôi .php) và thực thi mã độc nằm trong metadata.
+
+---
+
+## 3. Kỹ thuật Nâng cao: Bypass Image Resizing (Vượt qua cơ chế đổi kích thước ảnh)
+
+### Mô tả
+
+Nhiều server bảo mật sẽ thực hiện **thay đổi kích thước (resize)** hoặc nén lại ảnh ngay sau khi nhận được. Quá trình này sẽ tạo ra một file ảnh hoàn toàn mới và loại bỏ toàn bộ Metadata (Exif, Comment) chứa mã độc ở phần trên.
+
+**(Lưu ý: Kỹ thuật này thường cần kết hợp với lỗ hổng Local File Inclusion - LFI để thực thi mã).**
+
+### Cơ chế tấn công
+
+Kẻ tấn công cần chèn mã độc vào các phần dữ liệu **bắt buộc** của ảnh (như `IDAT chunk` trong PNG hoặc `DCT` trong JPG) thay vì Metadata. Khi thư viện ảnh (như GD Library của PHP, ImageMagick) thực hiện resize, nó vẫn phải giữ lại các dữ liệu hình ảnh này, và vô tình giữ lại luôn mã độc.
+
+### Các bước thực hiện
+
+#### Bước 1: Chuẩn bị công cụ
+
+Sử dụng các công cụ chuyên dụng để tạo ảnh "Persistent Polyglot" (Polyglot bền vững).
+
+- **JPG:** Sử dụng `jpg_payload` hoặc `Drunken Bishop`.
+- **PNG:** Sử dụng `IDAT Injection` (chèn code vào các khối dữ liệu nén).
+
+#### Bước 2: Tạo Payload (Ví dụ với PNG IDAT)
+
+Mục tiêu là tạo ra một file PNG mà khi đi qua hàm `imagecreatefrompng()` và `imagepng()` của PHP, payload PHP shell vẫn còn nguyên vẹn.
+
+_(Code tạo payload này khá phức tạp, thường sử dụng script có sẵn như `png-idat-payload.php`)_.
+
+#### Bước 3: Upload
+
+Tải file ảnh hợp lệ (ví dụ `avatar.png`) chứa payload lên server. Server sẽ resize ảnh và lưu lại thành `avatar_resized.png`.
+
+#### Bước 4: Khai thác qua LFI
+
+Vì file trên server vẫn có đuôi là `.png` và header là ảnh, bạn không thể chạy nó trực tiếp. Bạn cần tìm một lỗi **Local File Inclusion (LFI)** trên web để "include" file ảnh này vào.
+
+**Payload LFI:**
+
+```http
+GET /index.php?page=wrapper://uploads/avatar_resized.png&cmd=id
+```
+
+Khi được include, PHP sẽ phân tích nội dung file ảnh, tìm thấy đoạn mã `<?php ... ?>` còn sót lại trong IDAT chunk và thực thi nó.
