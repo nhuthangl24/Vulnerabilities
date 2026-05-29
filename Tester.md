@@ -99,34 +99,4 @@ Tổng tối thiểu: 25 test case
 
 ---
 
-# File bàn giao
 
-Yêu cầu nộp:
-
-* File Excel hoặc Google Sheet
-* Đặt tên file rõ ràng
-* Có phân chia sheet hoặc phân loại test case hợp lý
-
----
-
-# Tiêu chí đánh giá
-
-## 1. Tư duy kiểm thử
-
-* Có phân tích được nhiều trường hợp khác nhau
-* Không bỏ sót case cơ bản
-* Có phân loại test hợp lý
-
-## 2. Chất lượng test case
-
-* Viết rõ ràng
-* Dễ hiểu
-* Có thể dùng để test thực tế
-
-## 3. Trình bày
-
-* Format thống nhất
-* Không lỗi chính tả
-* Dễ đọc và dễ review
-
----
